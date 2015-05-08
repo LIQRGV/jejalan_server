@@ -39,8 +39,9 @@ public class RestUser {
 				String hp = resultSet.getString(User.HP);
 				String profilePicture = resultSet.getString(User.PROFILE_PICTURE);
 				
-				String maskPassword = "******";
-				password = maskPassword;
+				String mask = "******";
+				username = mask;
+				password = mask;
 				
 				User user = new User();
 				user.setId(id);
@@ -80,8 +81,9 @@ public class RestUser {
 				String hp = resultSet.getString(User.HP);
 				String profilePicture = resultSet.getString(User.PROFILE_PICTURE);
 				
-				String maskPassword = "******";
-				password = maskPassword;
+				String mask = "******";
+				username = mask;
+				password = mask;
 
 				user.setId(id);
 				user.setUsername(username);

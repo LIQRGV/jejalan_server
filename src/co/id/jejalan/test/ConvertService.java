@@ -3,36 +3,30 @@ package co.id.jejalan.test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.naming.Context;
+
+
+
+
+//import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-/*import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;*/
-
-
-
-
-
-
-
-
-
-
-
-
+import javax.ws.rs.core.SecurityContext;
 
 import org.apache.naming.NamingContext;
 import org.json.JSONException;
@@ -40,7 +34,7 @@ import org.json.JSONObject;
 
 import co.id.jejalan.bean.BaseBean;
  
-@Path("/ftocservice")
+//@Path("/ftocservice")
 public class ConvertService implements Test{
  
 	  //@GET
@@ -73,7 +67,7 @@ public class ConvertService implements Test{
 		return Response.status(200).entity(jsonObject.toString()).build();
 	  }
 	  
-	  @Path("header")
+	  //@Path("header")
 	  @POST
 	  public Response test(BaseBean entity) throws JSONException 
 	  {
@@ -84,7 +78,7 @@ public class ConvertService implements Test{
 		  return Response.status(200).entity(entity).type(MediaType.APPLICATION_JSON).build();
 	  }
 	  
-	  @Path("ctxtest")
+	  /*@Path("ctxtest")
 	  @GET
 	  public Response ctxTest() throws JSONException
 	  {
@@ -104,9 +98,9 @@ public class ConvertService implements Test{
 			}		  
 		  return null;
 	  }
+	  */
 	  
-	  
-	  @Path("dbl/{param1}/{param1Val}/{param2}/{param2Val}")
+	  //@Path("dbl/{param1}/{param1Val}/{param2}/{param2Val}")
 	  @POST
 	  public Response dbl(@PathParam("param1") String param1,@PathParam("param2") String param2,
 			  @PathParam("param1Val") String param1Val,@PathParam("param2Val") String param2Val, BaseBean bean) throws JSONException
@@ -120,5 +114,19 @@ public class ConvertService implements Test{
 		  list.add("nil2");
 		  //return Response.status(200).entity(bean.toString()).build();
 		  return Response.status(200).entity(map).build();
+	  }
+	  
+	  //@Path("uth")
+	  @GET
+	  public Response uth(@Context HttpServletRequest req ) throws JSONException
+			  
+	  {
+		  
+		  //return Response.status(200).entity(bean.toString()).build();
+		  String res = req.getHeader("Authorization");
+		  String aa = res.split(" ")[1];
+		  Decoder decoder = Base64.getDecoder();
+		  String rr = new String(decoder.decode(aa));
+		  return Response.status(200).entity(rr).build();
 	  }
 }

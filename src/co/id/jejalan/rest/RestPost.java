@@ -28,10 +28,9 @@ public class RestPost {
 		List<Post> postList = new ArrayList<>();
 		PostDAOImplExt postDAO = DAOFactory.getPostDAO();
 		ResultSet resultSet = postDAO.get();
-		
+
 		try {
-			while(resultSet.next())
-			{
+			while (resultSet.next()) {
 				int id = resultSet.getInt(Post.ID);
 				String title = resultSet.getString(Post.TITLE);
 				int creator = resultSet.getInt(Post.CREATOR);
@@ -39,10 +38,13 @@ public class RestPost {
 				String content = resultSet.getString(Post.CONTENT);
 				int hit = resultSet.getInt(Post.HIT);
 				int revisionOf = resultSet.getInt(Post.REVISION_OF);
-				Timestamp timestampCreated = resultSet.getTimestamp(Post.DATE_CREATED); 
-				Timestamp dateCreated = new Timestamp(timestampCreated.getTime());
+				 Timestamp timestampCreated = resultSet
+				 .getTimestamp(Post.DATE_CREATED);
+				 Timestamp dateCreated = new Timestamp(
+				 timestampCreated.getTime());
+//				Date dateCreated = resultSet.getDate(Post.DATE_CREATED);
 				boolean removed = resultSet.getBoolean(Post.REMOVED);
-				
+
 				Post post = new Post();
 				post.setId(id);
 				post.setTitle(title);
@@ -53,7 +55,7 @@ public class RestPost {
 				post.setRevisionOf(revisionOf);
 				post.setDateCreated(dateCreated);
 				post.setRemoved(removed);
-				
+
 				postList.add(post);
 			}
 		} catch (SQLException e) {
@@ -66,21 +68,24 @@ public class RestPost {
 	@GET
 	@Path("{id}")
 	@Produces("application/json")
-	public Response getID(@PathParam("id")int id) {
+	public Response getID(@PathParam("id") int id) {
 		Post post = new Post();
 		PostDAOImplExt postDAO = DAOFactory.getPostDAO();
 		ResultSet resultSet = postDAO.getByID(id);
-		
+
 		try {
-			if(resultSet.next())
-			{
+			if (resultSet.next()) {
 				String title = resultSet.getString(Post.TITLE);
 				int creator = resultSet.getInt(Post.CREATOR);
 				int city = resultSet.getInt(Post.CITY);
 				String content = resultSet.getString(Post.CONTENT);
 				int hit = resultSet.getInt(Post.HIT);
 				int revisionOf = resultSet.getInt(Post.REVISION_OF);
-				Timestamp dateCreated = resultSet.getTimestamp(Post.DATE_CREATED);
+				 Timestamp timestampCreated = resultSet
+				 .getTimestamp(Post.DATE_CREATED);
+				 Timestamp dateCreated = new Timestamp(
+				 timestampCreated.getTime());
+//				Date dateCreated = resultSet.getDate(Post.DATE_CREATED);
 				boolean removed = resultSet.getBoolean(Post.REMOVED);
 
 				post.setId(id);
@@ -93,9 +98,7 @@ public class RestPost {
 				post.setDateCreated(dateCreated);
 				post.setRemoved(removed);
 
-			}
-			else
-			{
+			} else {
 				return Response.status(Response.Status.NO_CONTENT).build();
 			}
 		} catch (SQLException e) {
@@ -104,14 +107,14 @@ public class RestPost {
 
 		return Response.status(200).entity(post).build();
 	}
-	
+
 	@DELETE
-	@Path("{id}") 
-	public Response deleteID(@PathParam("id")int id) {
+	@Path("{id}")
+	public Response deleteID(@PathParam("id") int id) {
 		PostDAOImplExt postDao = DAOFactory.getPostDAO();
 		int deletedRow = postDao.deleteID(id);
-		
-		if(deletedRow == 0) 
+
+		if (deletedRow == 0)
 			return Response.status(Response.Status.NOT_FOUND).build();
 		else
 			return Response.status(Response.Status.ACCEPTED).build();
@@ -121,11 +124,12 @@ public class RestPost {
 	public Response insert(Post obj) {
 		PostDAOImplExt postDao = DAOFactory.getPostDAO();
 		int status = postDao.insert(obj);
-		
-		if(status != 0)
+
+		if (status != 0)
 			return Response.status(Response.Status.ACCEPTED).build();
 		else
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+					.build();
 	}
 
 	@PUT
@@ -133,9 +137,10 @@ public class RestPost {
 		PostDAOImplExt postDao = DAOFactory.getPostDAO();
 		int status = postDao.update(obj);
 
-		if(status != 0)
+		if (status != 0)
 			return Response.status(Response.Status.ACCEPTED).build();
 		else
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+					.build();
 	}
 }

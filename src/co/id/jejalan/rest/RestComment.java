@@ -35,7 +35,7 @@ public class RestComment {
 				int postID = resultSet.getInt(Comment.POSTID);
 				int userID = resultSet.getInt(Comment.USERID);
 				String content = resultSet.getString(Comment.CONTENT);
-				int revisionOf = resultSet.getInt(Comment.REVION_OF);
+				int revisionOf = resultSet.getInt(Comment.REVISION_OF);
 				boolean removed = resultSet.getBoolean(Comment.REMOVED);
 				Timestamp timestampCreated = resultSet.getTimestamp(Comment.DATE_CREATED);
 				
@@ -71,7 +71,7 @@ public class RestComment {
 				int postID = resultSet.getInt(Comment.POSTID);
 				int userID = resultSet.getInt(Comment.USERID);
 				String content = resultSet.getString(Comment.CONTENT);
-				int revisionOf = resultSet.getInt(Comment.REVION_OF);
+				int revisionOf = resultSet.getInt(Comment.REVISION_OF);
 				boolean removed = resultSet.getBoolean(Comment.REMOVED);
 				Timestamp timestampCreated = resultSet.getTimestamp(Comment.DATE_CREATED);
 

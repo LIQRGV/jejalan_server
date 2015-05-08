@@ -14,7 +14,7 @@ public interface Test {
 	  @GET
 	  @Produces("application/json")
 	public Response convertFtoC() throws JSONException;
-	@Path("{f}")
+	//@Path("{f}")
 	  @GET
 	  @Produces("application/json")
 	  public Response convertFtoCfromInput(@PathParam("f") float f) throws JSONException;

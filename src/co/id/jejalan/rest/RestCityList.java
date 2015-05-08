@@ -14,7 +14,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import co.id.jejalan.bean.CityList;
 import co.id.jejalan.dao.extended.CityListDAOImplExt;
 import co.id.jejalan.factory.DAOFactory;
@@ -28,19 +27,18 @@ public class RestCityList {
 		List<CityList> cityList = new ArrayList<>();
 		CityListDAOImplExt cityListDAO = DAOFactory.getCityListDAO();
 		ResultSet resultSet = cityListDAO.get();
-		
+
 		try {
-			while(resultSet.next())
-			{
+			while (resultSet.next()) {
 				int id = resultSet.getInt(CityList.ID);
 				String cityName = resultSet.getString(CityList.CITYNAME);
 				int region = resultSet.getInt(CityList.REGION);
-				
+
 				CityList city = new CityList();
 				city.setId(id);
 				city.setCityName(cityName);
 				city.setRegion(region);
-				
+
 				cityList.add(city);
 			}
 		} catch (SQLException e) {
@@ -57,20 +55,17 @@ public class RestCityList {
 		CityList city = new CityList();
 		CityListDAOImplExt cityListDAO = DAOFactory.getCityListDAO();
 		ResultSet resultSet = cityListDAO.getByID(id);
-		
+
 		try {
-			if(resultSet.next())
-			{
+			if (resultSet.next()) {
 				String cityName = resultSet.getString(CityList.CITYNAME);
 				int region = resultSet.getInt(CityList.REGION);
-				
+
 				city.setId(id);
 				city.setCityName(cityName);
 				city.setRegion(region);
 
-			}
-			else
-			{
+			} else {
 				return Response.status(Response.Status.NO_CONTENT).build();
 			}
 		} catch (SQLException e) {
@@ -82,24 +77,51 @@ public class RestCityList {
 
 	@DELETE
 	@Path("{id}")
-	public Response deleteID(int id) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
-		// return false;
+	public Response deleteID(@PathParam("id") int id) {
+		CityListDAOImplExt cityListDao = DAOFactory.getCityListDAO();
+		try {
+			int deletedRow = cityListDao.deleteID(id);
+
+			if (deletedRow == 0)
+				return Response.status(Response.Status.NOT_FOUND).build();
+			else
+				return Response.status(Response.Status.ACCEPTED).build();
+		} catch (Exception e) {
+			return Response.status(501).build();
+		}
+		// return Response.status(501).build();
 	}
 
 	@POST
 	public Response insert(CityList obj) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
-		// return false;
+		CityListDAOImplExt cityListDao = DAOFactory.getCityListDAO();
+		try {
+			int deletedRow = cityListDao.insert(obj);
+
+			if (deletedRow == 0)
+				return Response.status(Response.Status.NOT_FOUND).build();
+			else
+				return Response.status(Response.Status.ACCEPTED).build();
+		} catch (Exception e) {
+			return Response.status(501).build();
+		}
+		// return Response.status(501).build();
 	}
 
 	@PUT
 	public Response update(CityList obj) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
-		// return false;
+		CityListDAOImplExt cityListDao = DAOFactory.getCityListDAO();
+		try {
+			int deletedRow = cityListDao.update(obj);
+
+			if (deletedRow == 0)
+				return Response.status(Response.Status.NOT_FOUND).build();
+			else
+				return Response.status(Response.Status.ACCEPTED).build();
+		} catch (Exception e) {
+			return Response.status(501).build();
+		}
+		// return Response.status(501).build();
 	}
 
 }

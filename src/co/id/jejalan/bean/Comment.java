@@ -4,6 +4,9 @@ import java.sql.Timestamp;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import co.id.jejalan.rest.adapterClass.DateTimeAdapter;
 
 @XmlRootElement(name="Comment")
 public class Comment extends BaseBean{
@@ -15,7 +18,7 @@ public class Comment extends BaseBean{
 	@XmlTransient
 	public final static String CONTENT = "content";
 	@XmlTransient
-	public final static String REVION_OF = "revisionOf";
+	public final static String REVISION_OF = "revisionOf";
 	@XmlTransient
 	public final static String REMOVED = "removed";
 	@XmlTransient
@@ -25,6 +28,7 @@ public class Comment extends BaseBean{
 	private int postID;
 	private String content;
 	private int revisionOf;
+	@XmlJavaTypeAdapter(value = DateTimeAdapter.class)
 	private Timestamp dateCreated;
 	private boolean removed;
 	

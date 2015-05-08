@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import co.id.jejalan.bean.Region;
 import co.id.jejalan.dao.Query;
 import co.id.jejalan.dao.Query.QueryKey;
@@ -40,23 +39,23 @@ public class RegionDAOImpl implements RegionDAO {
 	}
 
 	@Override
-	public int deleteID(int id) {
+	public int deleteID(int id) throws UnsupportedOperationException{
 		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		throw new UnsupportedOperationException();
 		// return false;
 	}
 
 	@Override
-	public int insert(Region obj) {
+	public int insert(Region obj) throws UnsupportedOperationException{
 		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		throw new UnsupportedOperationException();
 		// return false;
 	}
 
 	@Override
-	public int update(Region obj) {
+	public int update(Region obj) throws UnsupportedOperationException{
 		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		throw new UnsupportedOperationException();
 		// return false;
 	}
 }

@@ -52,7 +52,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  * @author Jakub Podlesak (jakub.podlesak at oracle.com)
  */
-@Provider
+//@Provider
 public class MyObjectMapperProvider implements ContextResolver<ObjectMapper> {
 	 
     final ObjectMapper defaultObjectMapper;

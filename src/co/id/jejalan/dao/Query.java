@@ -72,7 +72,7 @@ public class Query {
 	private static String getAllComment = "select * from comment where removed = 0";
 	private static String getAllTag = "select * from tag";
 
-	private static String getUserById = "select * from user where id=?";
+	private static String getUserById = "select * from user where id=? and isActive=1";
 	private static String getSocmedById = "select * from socmed where id=?";
 	private static String getARegionById = "select * from region where id=?";
 	private static String getCityById = "select * from city_list where id=?";
@@ -80,26 +80,26 @@ public class Query {
 	private static String getCommentByIdComment = "select * from comment where id=? AND removed = 0";
 	private static String getTagById = "select * from tag where id=?";
 
-	private static String postUser = "INSERT INTO user (username, password, complete_name, region, email, HP, profilePicture) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	private static String postUser = "INSERT INTO user (username, password, complete_name, region, email, HP, profilePicture, isActive) VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
 	private static String postPost = "INSERT INTO post (title, creator, city, content, revision_Of, removed, date_created) VALUES (?, ?, ?, ?, 0, 0, now())";
-	private static String postComment = "INSERT INTO comment(post_id, user_id, content, revison_Of, removed, date_created) VALUES (?,?,?,0,0,now())";
+	private static String postComment = "INSERT INTO comment(post_id, user_id, content, revisionOf, removed, date_created) VALUES (?,?,?,0,0,now())";
 
 	private static String putUser = "UPDATE user SET password = ?, complete_name = ?, region = ?, HP = ?, profilePicture = ? WHERE id = ?";
 	private static String putPost = "INSERT INTO post (title, creator, city, content, revision_Of, removed, date_created) VALUES (?, ?, ?, ?, ?, 0, ?)";
-	private static String putComment = "INSERT INTO comment(post_id, user_id, content, revison_Of, removed, date_created) VALUES (?,?,?,?,0,?)";
+	private static String putComment = "INSERT INTO comment(post_id, user_id, content, revisionOf, removed, date_created) VALUES (?,?,?,?,0,?)";
 
-	private static String deleteUser = "DELETE FROM user WHERE id = ?";
+	private static String deleteUser = "UPDATE user SET isActive = 0 WHERE id = ?";
 	private static String deletePost = "UPDATE post SET removed = 1 WHERE id = ?";
 	private static String deleteComment = "UPDATE comment SET removed = 1 WHERE id = ?";
 	
-	private static String isUsernameUsed = "SELECT * FROM user WHERE 1 username=?";
-	private static String isEmailUsed = "SELECT * FROM user WHERE 1 email=?";
-	private static String isPhoneUsed = "SELECT * FROM user WHERE 1 HP=?";
+	private static String isUsernameUsed = "SELECT * FROM user WHERE username=?";
+	private static String isEmailUsed = "SELECT * FROM user WHERE email=?";
+	private static String isPhoneUsed = "SELECT * FROM user WHERE HP=?";
 	
-	private static String getCommentByPost = "SELECT * FROM comment WHERE 1 post_id=?";
-	private static String getCommentByIdUser = "SELECT * FROM comment WHERE 1 user_id=?";
+	private static String getCommentByPost = "SELECT * FROM comment WHERE post_id=? and removed=0";
+	private static String getCommentByIdUser = "SELECT * FROM comment WHERE user_id=? and removed=0";
 	
-	private static String getTopPost = "SELECT * FROM post LIMIT 3";
+	private static String getTopPost = "SELECT * FROM post WHERE removed = 0 ORDER BY post.hit LIMIT 3";
 	
 	private static String login = "SELECT * FROM user where username=? and password=?";
 	
