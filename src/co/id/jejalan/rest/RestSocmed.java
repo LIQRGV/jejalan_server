@@ -3,7 +3,9 @@ package co.id.jejalan.rest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -24,6 +26,7 @@ public class RestSocmed {
 	@GET
 	@Produces("application/json")
 	public Response get() {
+		Map<String,List<Socmed>> responseMap = new HashMap<>();
 		List<Socmed> socmedList = new ArrayList<>();
 		SocmedDAOImplExt socmedDAO = DAOFactory.getSocmedDAO();
 		ResultSet resultSet = socmedDAO.get();
@@ -43,7 +46,9 @@ public class RestSocmed {
 			e.printStackTrace();
 		}
 
-		return Response.status(200).entity(socmedList).build();
+		responseMap.put("result", socmedList);
+		
+		return Response.status(200).entity(responseMap).build();
 	}
 
 	@GET

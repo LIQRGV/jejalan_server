@@ -3,7 +3,9 @@ package co.id.jejalan.rest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -24,6 +26,7 @@ public class RestRegion {
 	@GET
 	@Produces("application/json")
 	public Response get() {
+		Map<String,List<Region>> responseMap = new HashMap<>();
 		List<Region> regionList = new ArrayList<>();
 		RegionDAOImplExt regionDAO = DAOFactory.getRegionDAO();
 		ResultSet resultSet = regionDAO.get();
@@ -43,7 +46,9 @@ public class RestRegion {
 			e.printStackTrace();
 		}
 
-		return Response.status(200).entity(regionList).build();
+		responseMap.put("result", regionList);
+		
+		return Response.status(200).entity(responseMap).build();
 	}
 
 	@GET

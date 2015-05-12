@@ -4,7 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -24,6 +26,7 @@ public class RestComment {
 	@GET
 	@Produces("application/json")
 	public Response get() {
+		Map<String,List<Comment>> responseMap = new HashMap<>();
 		List<Comment> commentList = new ArrayList<>();
 		CommentDAOImplExt commentDAO = DAOFactory.getCommentDAO();
 		ResultSet resultSet = commentDAO.get();
@@ -53,8 +56,10 @@ public class RestComment {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		responseMap.put("result", commentList);
 
-		return Response.status(200).entity(commentList).build();
+		return Response.status(200).entity(responseMap).build();
 	}
 
 	@GET

@@ -3,7 +3,9 @@ package co.id.jejalan.rest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -24,6 +26,7 @@ public class RestCityList {
 	@GET
 	@Produces("application/json")
 	public Response get() {
+		Map<String,List<CityList>> responseMap = new HashMap<>();
 		List<CityList> cityList = new ArrayList<>();
 		CityListDAOImplExt cityListDAO = DAOFactory.getCityListDAO();
 		ResultSet resultSet = cityListDAO.get();
@@ -44,8 +47,10 @@ public class RestCityList {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		responseMap.put("result", cityList);
 
-		return Response.status(200).entity(cityList).build();
+		return Response.status(200).entity(responseMap).build();
 	}
 
 	@GET

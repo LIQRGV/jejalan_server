@@ -3,7 +3,9 @@ package co.id.jejalan.rest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -24,6 +26,7 @@ public class RestTag {
 	@GET
 	@Produces("application/json")
 	public Response get() {
+		Map<String,List<Tag>> responseMap = new HashMap<>();
 		List<Tag> tagList = new ArrayList<>();
 		TagDAOImplExt tagDAO = DAOFactory.getTagDAO();
 		ResultSet resultSet = tagDAO.get();
@@ -43,7 +46,9 @@ public class RestTag {
 			e.printStackTrace();
 		}
 
-		return Response.status(200).entity(tagList).build();
+		responseMap.put("result", tagList);
+		
+		return Response.status(200).entity(responseMap).build();
 	}
 
 	@GET

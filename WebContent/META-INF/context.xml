@@ -26,6 +26,11 @@
 		maxActive="100" maxIdle="30" maxWait="10000" username="jejalan"
 		password="t4HV65YjShnytz6y" driverClassName="com.mysql.jdbc.Driver"
 		url="jdbc:mysql://10.3.52.254:3306/jejalan" />
+		
+	<!--<Resource name="jdbc/mySQL/Jejalan" auth="Container" type="javax.sql.DataSource"
+		maxActive="100" maxIdle="30" maxWait="10000" username="jejalan"
+		password="Kc93ECsdz3fmnWwV" driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/jejalan" /> -->
 
 
 	<!-- Specify the security realm and location of the users file <Realm className="org.apache.catalina.realm.MemoryRealm" 

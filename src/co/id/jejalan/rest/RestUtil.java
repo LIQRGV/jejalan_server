@@ -115,6 +115,7 @@ public class RestUtil {
 	@Path("getTopPost")
 	@Produces("application/json")
 	public Response getTopPost() {
+		Map<String,List<Post>> resultMap = new HashMap<>();
 		List<Post> postList = new ArrayList<>();
 		PostDAOImplExt postDao = DAOFactory.getPostDAO();
 		ResultSet resultSet = postDao.getTopPost();
@@ -151,7 +152,9 @@ public class RestUtil {
 			e.printStackTrace();
 		}
 
-		return Response.status(200).entity(postList).build();
+		resultMap.put("result", postList);
+		
+		return Response.status(200).entity(resultMap).build();
 	}
 
 	@GET

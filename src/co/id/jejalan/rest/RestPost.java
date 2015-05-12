@@ -4,7 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -25,6 +27,7 @@ public class RestPost {
 	@GET
 	@Produces("application/json")
 	public Response get() {
+		Map<String,List<Post>> responseMap = new HashMap<>();
 		List<Post> postList = new ArrayList<>();
 		PostDAOImplExt postDAO = DAOFactory.getPostDAO();
 		ResultSet resultSet = postDAO.get();
@@ -61,8 +64,10 @@ public class RestPost {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		responseMap.put("result", postList);
 
-		return Response.status(200).entity(postList).build();
+		return Response.status(200).entity(responseMap).build();
 	}
 
 	@GET

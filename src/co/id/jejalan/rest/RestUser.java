@@ -3,7 +3,9 @@ package co.id.jejalan.rest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -23,6 +25,7 @@ public class RestUser {
 	@GET
 	@Produces("application/json")
 	public Response get() {
+		Map<String,List<User>> responseMap = new HashMap<>();
 		List<User> userList = new ArrayList<>();
 		UserDAOImplExt userDAO = DAOFactory.getUserDAO();
 		ResultSet resultSet = userDAO.get();
@@ -59,7 +62,9 @@ public class RestUser {
 			e.printStackTrace();
 		}
 
-		return Response.status(200).entity(userList).build();
+		responseMap.put("status",userList);
+		
+		return Response.status(200).entity(responseMap).build();
 	}
 
 	@GET
