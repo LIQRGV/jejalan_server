@@ -2,5 +2,5 @@
 /build
 
 /target
-/WebContent/META-INF/context.xml
+**/context.xml
 .env
