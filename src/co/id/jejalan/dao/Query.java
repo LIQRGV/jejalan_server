@@ -99,7 +99,7 @@ public class Query {
 	private static String getCommentByPost = "SELECT * FROM comment WHERE post_id=? and removed=0";
 	private static String getCommentByIdUser = "SELECT * FROM comment WHERE user_id=? and removed=0";
 	
-	private static String getTopPost = "SELECT * FROM post WHERE removed = 0 ORDER BY post.hit LIMIT 3";
+	private static String getTopPost = "SELECT * FROM post WHERE removed = 0 ORDER BY post.hit DESC LIMIT 3";
 	
 	private static String login = "SELECT * FROM user where username=? and password=?";
 	
