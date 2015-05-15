@@ -108,9 +108,10 @@ public class Query {
 	private static String getPostByTag = "SELECT post.* FROM post, (SELECT * FROM posts_tag WHERE tag_id=?) as tempTable "+
 									"where tempTable.post_id=post.id";
 	
-	private static final Map<QueryKey, PreparedStatement> statement;  
+	private static Map<QueryKey, PreparedStatement> statement;  
+	private static Connection conn;
 	
-	static{
+	private static void init(){
 		statement = new HashMap<>();
 		Context ctx = null;
 		DataSource ds = null;
@@ -120,7 +121,7 @@ public class Query {
             NamingContext dbContext = (NamingContext)ctx.lookup("java:/comp/env/jdbc/mySQL");
 
             ds = (DataSource) dbContext.lookup("Jejalan");
-			Connection conn = ds.getConnection();
+			conn = ds.getConnection();
 			
 			QueryKey tempKey[] = {
 					QueryKey.getAllUser, QueryKey.getAllSocmed,QueryKey.getAllRegion,QueryKey.getAllCity,QueryKey.getAllPost,QueryKey.getAllComment,QueryKey.getAllTag,
@@ -165,6 +166,11 @@ public class Query {
 	
 	public static PreparedStatement getPreparedStatement(QueryKey key)
 	{
+		if(conn == null){
+			statement = null;
+			init();
+		}
+		
 		return statement.get(key);
 	}
 }

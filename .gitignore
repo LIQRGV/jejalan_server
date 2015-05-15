@@ -1,7 +1,5 @@
-/.settings
-
-/build
-
-/target
+.settings/
+build/
+target/
 **/context.xml
 .env

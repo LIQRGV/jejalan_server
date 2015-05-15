@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.Base64.Decoder;
 import java.util.Map;
 
@@ -19,6 +21,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
+import co.id.jejalan.bean.BaseBean;
 import co.id.jejalan.bean.Comment;
 import co.id.jejalan.bean.Post;
 import co.id.jejalan.bean.Tag;
@@ -73,8 +76,7 @@ public class RestUtil {
 		else
 			mapResponse.put("status", "available");
 
-		return Response.status(Response.Status.OK).entity(mapResponse)
-				.build();
+		return Response.status(Response.Status.OK).entity(mapResponse).build();
 	}
 
 	@GET
@@ -90,8 +92,7 @@ public class RestUtil {
 		else
 			mapResponse.put("status", "available");
 
-		return Response.status(Response.Status.OK).entity(mapResponse)
-				.build();
+		return Response.status(Response.Status.OK).entity(mapResponse).build();
 	}
 
 	@GET
@@ -107,17 +108,19 @@ public class RestUtil {
 		else
 			mapResponse.put("status", "available");
 
-		return Response.status(Response.Status.OK).entity(mapResponse)
-				.build();
+		return Response.status(Response.Status.OK).entity(mapResponse).build();
 	}
 
 	@GET
 	@Path("getTopPost")
 	@Produces("application/json")
 	public Response getTopPost() {
-		Map<String,List<Post>> resultMap = new HashMap<>();
+		Map<String, List<? extends BaseBean>> resultMap = new HashMap<>();
 		List<Post> postList = new ArrayList<>();
+		List<User> userInfoList = new ArrayList<>();
+		Set<Integer> tempCreatorSet = new TreeSet<>();
 		PostDAOImplExt postDao = DAOFactory.getPostDAO();
+		UserDAOImplExt userDao = DAOFactory.getUserDAO();
 		ResultSet resultSet = postDao.getTopPost();
 
 		try {
@@ -146,14 +149,52 @@ public class RestUtil {
 				post.setDateCreated(dateCreated);
 				post.setRemoved(removed);
 
+				tempCreatorSet.add(creator);
+
 				postList.add(post);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
+		try {
+			for (int id : tempCreatorSet) {
+				ResultSet resultSetUser = userDao.getByID(id);
+				if (resultSetUser.next()) {
+					User user = new User();
+					String username = resultSetUser.getString(User.USERNAME);
+					String password = resultSetUser.getString(User.PASSWORD);
+					String completeName = resultSetUser
+							.getString(User.COMPLETE_NAME);
+					int region = resultSetUser.getInt(User.REGION);
+					String email = resultSetUser.getString(User.EMAIL);
+					String hp = resultSetUser.getString(User.HP);
+					String profilePicture = resultSetUser
+							.getString(User.PROFILE_PICTURE);
+
+					String mask = "******";
+					username = mask;
+					password = mask;
+
+					user.setId(id);
+					user.setUsername(username);
+					user.setPassword(password);
+					user.setCompleteName(completeName);
+					user.setRegion(region);
+					user.setEmail(email);
+					user.setHp(hp);
+					user.setProfilePicture(profilePicture);
+					
+					userInfoList.add(user);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		resultMap.put("result", postList);
-		
+		resultMap.put("info", userInfoList);
+
 		return Response.status(200).entity(resultMap).build();
 	}
 
