@@ -44,22 +44,32 @@ public class RestUtil {
 		//prevent null auth
 		if(authHeaderValue != null){
 			String arrayAuth[] = authHeaderValue.split(" ");
-			@SuppressWarnings("unused")
-			String authType = arrayAuth[0];
-			String authValue = arrayAuth[1];
-			Decoder decoder = Base64.getDecoder();
-			String usernamePassword = new String(decoder.decode(authValue));
-			String arrayUsernamePassword[] = usernamePassword.split(":");
-			String username = arrayUsernamePassword[0];
-			String password = arrayUsernamePassword[1];
-	
-			User user = new User();
-	
-			user.setUsername(username);
-			user.setPassword(password);
-			UserDAOImplExt userDAO = DAOFactory.getUserDAO();
-			
-			userExist = userDAO.login(user);
+			// ensure auth have 2 string
+			if(arrayAuth.length == 2){
+				String authType = arrayAuth[0];
+				String authValue = arrayAuth[1];
+				// handle the basic auth (note : other auth not implemented yet)
+				if(authType.matches("[B|b]asic"))
+				{
+					Decoder decoder = Base64.getDecoder();
+					String usernamePassword = new String(decoder.decode(authValue));
+					String arrayUsernamePassword[] = usernamePassword.split(":");
+					// check username password pair
+					if(arrayUsernamePassword.length == 2)
+					{
+						String username = arrayUsernamePassword[0];					
+						String password = arrayUsernamePassword[1];
+				
+						User user = new User();
+				
+						user.setUsername(username);
+						user.setPassword(password);
+						UserDAOImplExt userDAO = DAOFactory.getUserDAO();
+						
+						userExist = userDAO.login(user);
+					}
+				}
+			}
 		}
 		
 		if (!userExist)
