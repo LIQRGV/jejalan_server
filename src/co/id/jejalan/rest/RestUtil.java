@@ -40,23 +40,28 @@ public class RestUtil {
 	public Response login(@Context HttpServletRequest request) {
 
 		String authHeaderValue = request.getHeader("Authorization");
-		String arrayAuth[] = authHeaderValue.split(" ");
-		@SuppressWarnings("unused")
-		String authType = arrayAuth[0];
-		String authValue = arrayAuth[1];
-		Decoder decoder = Base64.getDecoder();
-		String usernamePassword = new String(decoder.decode(authValue));
-		String arrayUsernamePassword[] = usernamePassword.split(":");
-		String username = arrayUsernamePassword[0];
-		String password = arrayUsernamePassword[1];
-
-		User user = new User();
-
-		user.setUsername(username);
-		user.setPassword(password);
-		UserDAOImplExt userDAO = DAOFactory.getUserDAO();
-		boolean userExist = userDAO.login(user);
-
+		boolean userExist = false;
+		//prevent null auth
+		if(authHeaderValue != null){
+			String arrayAuth[] = authHeaderValue.split(" ");
+			@SuppressWarnings("unused")
+			String authType = arrayAuth[0];
+			String authValue = arrayAuth[1];
+			Decoder decoder = Base64.getDecoder();
+			String usernamePassword = new String(decoder.decode(authValue));
+			String arrayUsernamePassword[] = usernamePassword.split(":");
+			String username = arrayUsernamePassword[0];
+			String password = arrayUsernamePassword[1];
+	
+			User user = new User();
+	
+			user.setUsername(username);
+			user.setPassword(password);
+			UserDAOImplExt userDAO = DAOFactory.getUserDAO();
+			
+			userExist = userDAO.login(user);
+		}
+		
 		if (!userExist)
 			return Response.status(Response.Status.NOT_FOUND).build();
 		else
