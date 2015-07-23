@@ -3,3 +3,4 @@ build/
 target/
 **/context.xml
 .env
+.project
